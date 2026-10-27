@@ -1,0 +1,7 @@
+node_modules
+dist
+demo/*.webm
+demo/raw
+playtest
+.DS_Store
+demo/*.mp4
