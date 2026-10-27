@@ -29,7 +29,7 @@ const def = (id: BuildingId, cost: Partial<Resources>, workers: number, allowed:
 
 export const BUILDINGS: Record<BuildingId, BuildingDef> = {
   calli: def('calli', { madera: 12 }, 0, [T.ISLAND, T.MARSH], 25),
-  chinampa: def('chinampa', { madera: 6 }, 4, [T.MARSH, T.SHALLOW]),
+  chinampa: def('chinampa', { madera: 6 }, 6, [T.MARSH, T.SHALLOW]),
   calzada: def('calzada', { piedra: 2 }, 0, [T.MARSH, T.SHALLOW, T.DEEP]),
   lenadores: def('lenadores', { madera: 10 }, 6, [T.FOREST]),
   cantera: def('cantera', { madera: 15 }, 8, [T.ROCK]),

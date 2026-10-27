@@ -1,7 +1,7 @@
 import { BUILDINGS, canPlace, countBuildings, housing, isConnected, type BuildingId } from './buildings';
 import { idx, inBounds, type GameState } from './state';
 import { isMainland, T } from './terrain';
-import { staffing } from './tick';
+import { BALANCE, staffing } from './tick';
 
 export interface Action {
   id: BuildingId;
@@ -29,8 +29,11 @@ export function nextAction(s: GameState): Action | null {
     if (next !== undefined) return null;
   }
 
-  const foodNet = s.delta.maiz;
-  const hungry = s.res.maiz < 60 || (foodNet < pop * 0.02 && s.res.maiz < pop * 2);
+  // Compare farm output with what the city eats (ignoring spoilage and markets).
+  const drought = s.droughtDays > 0 ? BALANCE.droughtFactor : 1;
+  const farmOutput = c.chinampa * BALANCE.chinampaMaiz * staffed * drought;
+  const eaten = pop * BALANCE.eatPerPerson;
+  const hungry = s.res.maiz < 60 || farmOutput < eaten * 1.15 + 2;
   if (hungry && staffed > 0.85) {
     const a = tryBuild(s, 'chinampa', centerDist(s));
     if (a) return a;

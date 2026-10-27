@@ -26,6 +26,7 @@ export interface HudInfo {
   staffing: number;
   housing: number;
   jobs: number;
+  workforce: number;
   counts: Record<BuildingId, number>;
 }
 
@@ -207,7 +208,7 @@ export class UI {
     }
     this.popEl.textContent = `${fmt(s.population)} / ${fmt(info.housing)}`;
     setDelta(this.popDelta, s.delta.population);
-    this.workersEl.textContent = `${fmt(Math.min(s.population, info.jobs))} / ${fmt(info.jobs)}`;
+    this.workersEl.textContent = `${fmt(Math.min(info.workforce, info.jobs))} / ${fmt(info.jobs)}`;
     this.favorFill.style.width = `${s.favor}%`;
     this.favorFill.className = `fill ${s.favor < 25 ? 'bad' : s.favor < 50 ? 'warn' : 'good'}`;
     this.favorVal.textContent = `${Math.floor(s.favor)}`;

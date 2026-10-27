@@ -143,9 +143,9 @@ export const t = {
   helpTitle: 'Cómo jugar',
   help: [
     '<b>Meta:</b> alcanza 2,500 habitantes y funda la gran México-Tenochtitlan.',
-    '<b>Calli</b> da vivienda y las <b>chinampas</b> dan maíz. Cada persona come maíz todos los días: si se acaba, llega la hambruna.',
+    '<b>Calli</b> da vivienda y las <b>chinampas</b> dan maíz. Cada persona come maíz todos los días: si se acaba, llega la hambruna. El maíz guardado se echa a perder poco a poco (2% al día), así que no sirve acumular de más.',
     'La <b>madera</b> y la <b>piedra</b> vienen de tierra firme. Pon <b>leñadores</b> en el bosque y <b>canteras</b> en las rocas, y une la isla con la orilla con una <b>calzada</b>.',
-    'Cada edificio necesita <b>trabajadores</b>. Si no hay suficiente gente, todo produce menos.',
+    'Cada edificio necesita <b>trabajadores</b>, pero solo el 45% de la población puede trabajar (los niños, los ancianos y los nobles no). Si faltan trabajadores, todo produce menos.',
     'El <b>tianguis</b> cambia el maíz sobrante por <b>cacao</b>, que necesitas para los <b>teocalli</b>.',
     'Los teocalli mantienen el <b>favor divino</b>. Entre más crece la ciudad, más templos necesita. Si el favor llega a cero, pierdes.',
     'Cuidado con las <b>inundaciones</b>: un <b>albarradón</b> de 12 tramos protege tus chinampas. Cada 90 días llega tributo.',

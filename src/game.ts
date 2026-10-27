@@ -1,6 +1,6 @@
 import { canPlace, countBuildings, demolish, housing, isConnected, place, totalJobs } from './sim/buildings';
 import { newGame, type GameState } from './sim/state';
-import { step } from './sim/tick';
+import { step, workforce } from './sim/tick';
 import { t } from './i18n/es-MX';
 import { attachInput } from './input';
 import { Renderer, TILE, type Camera, type Hover } from './render/renderer';
@@ -263,7 +263,8 @@ export class Game {
       speed: this.speed,
       tool: this.tool,
       connected,
-      staffing: jobs > 0 ? Math.min(1, s.population / jobs) : 1,
+      staffing: jobs > 0 ? Math.min(1, workforce(s.population) / jobs) : 1,
+      workforce: workforce(s.population),
       housing: housing(counts),
       jobs,
       counts,

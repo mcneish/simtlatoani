@@ -40,8 +40,10 @@ describe('balance', () => {
   it('neglecting the temples angers the gods', () => {
     const s = newGame(1);
     s.buildings = s.buildings.map((b) => (b === 'teocalli' ? null : b));
-    s.res.maiz = 1e6;
-    while (s.status === 'playing' && s.day < 5000) step(s);
+    while (s.status === 'playing' && s.day < 5000) {
+      s.res.maiz = 1000; // keep everyone fed so only favor matters
+      step(s);
+    }
     expect(s.status).toBe('lost');
     expect(s.lostReason).toBe('favor');
   });

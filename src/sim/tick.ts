@@ -13,7 +13,11 @@ export const BALANCE = {
   teocalliFavor: 0.25,
   favorDecayBase: 0.05,
   favorDecayPerPerson: 1 / 1500,
+  /** Share of the population able to work (children, elders and nobles don't). */
+  workforceShare: 0.45,
   eatPerPerson: 0.1,
+  /** Fraction of stored maize that spoils each day. */
+  maizSpoilage: 0.02,
   growthRate: 0.02,
   famineLoss: 0.04,
   homelessLoss: 0.1,
@@ -29,10 +33,14 @@ export function favorGrowthFactor(favor: number): number {
   return 0.3;
 }
 
+export function workforce(population: number): number {
+  return Math.floor(population * B.workforceShare);
+}
+
 /** Fraction of jobs that are filled (1 = fully staffed). */
 export function staffing(s: GameState): number {
   const jobs = totalJobs(countBuildings(s), isConnected(s));
-  return jobs > 0 ? Math.min(1, s.population / jobs) : 1;
+  return jobs > 0 ? Math.min(1, workforce(s.population) / jobs) : 1;
 }
 
 /** Advances the simulation by one day. Mutates and returns the state. */
@@ -42,7 +50,7 @@ export function step(s: GameState): GameState {
   const counts = countBuildings(s);
   const connected = isConnected(s);
   const jobs = totalJobs(counts, connected);
-  const ratio = jobs > 0 ? Math.min(1, s.population / jobs) : 1;
+  const ratio = jobs > 0 ? Math.min(1, workforce(s.population) / jobs) : 1;
   const drought = s.droughtDays > 0;
   const before = { ...s.res, favor: s.favor, population: s.population };
 
@@ -75,6 +83,7 @@ export function step(s: GameState): GameState {
     }
     s.population -= Math.max(1, Math.ceil(s.population * B.famineLoss));
   }
+  s.res.maiz -= s.res.maiz * B.maizSpoilage;
 
   // Population
   const cap = housing(counts);

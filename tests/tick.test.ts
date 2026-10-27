@@ -20,11 +20,11 @@ describe('daily step', () => {
     const s = world();
     place(s, 0, 1, 'chinampa');
     place(s, 0, 0, 'calli');
-    s.population = 10;
+    s.population = 20; // 9 can work, chinampa needs 6
     s.res.maiz = 50;
     step(s);
-    // 3 produced (fully staffed), 1 eaten
-    expect(s.res.maiz).toBeCloseTo(50 + BALANCE.chinampaMaiz - 10 * BALANCE.eatPerPerson);
+    // 3 produced (fully staffed), 2 eaten
+    expect(s.res.maiz).toBeCloseTo((50 + BALANCE.chinampaMaiz - 20 * BALANCE.eatPerPerson) * (1 - BALANCE.maizSpoilage));
   });
 
   it('understaffed buildings produce proportionally less', () => {
@@ -32,10 +32,22 @@ describe('daily step', () => {
     place(s, 0, 1, 'chinampa');
     place(s, 1, 1, 'chinampa');
     place(s, 0, 0, 'calli');
-    s.population = 4; // 8 jobs
+    s.population = 14; // 6 can work, 12 jobs
     s.res.maiz = 50;
     step(s);
-    expect(s.res.maiz).toBeCloseTo(50 + 2 * BALANCE.chinampaMaiz * 0.5 - 4 * BALANCE.eatPerPerson);
+    expect(s.res.maiz).toBeCloseTo((50 + 2 * BALANCE.chinampaMaiz * 0.5 - 14 * BALANCE.eatPerPerson) * (1 - BALANCE.maizSpoilage));
+  });
+
+  it('stored maize spoils a little every day', () => {
+    const s = world();
+    place(s, 0, 0, 'calli');
+    s.population = 10;
+    s.res.maiz = 1000;
+    step(s);
+    expect(s.res.maiz).toBeCloseTo((1000 - 10 * BALANCE.eatPerPerson) * (1 - BALANCE.maizSpoilage));
+    for (let i = 0; i < 100; i++) step(s);
+    // Without spoilage ~800 would remain; with it, most has rotted.
+    expect(s.res.maiz).toBeLessThan(250);
   });
 
   it('population grows toward housing when fed', () => {
@@ -94,13 +106,13 @@ describe('daily step', () => {
     const s = world();
     place(s, 0, 0, 'tianguis');
     place(s, 1, 0, 'calli');
-    s.population = 4;
+    s.population = 10; // 4 can work, market needs 4
     s.res.cacao = 0;
     s.res.maiz = 102;
     step(s);
-    // 102 - 0.4 eaten, market may use only what is above 100
+    // Market may use only what is above 100, then 1 is eaten
     expect(s.res.cacao).toBeCloseTo(1);
-    expect(s.res.maiz).toBeCloseTo(100 - 0.4);
+    expect(s.res.maiz).toBeCloseTo((100 - 1) * (1 - BALANCE.maizSpoilage));
   });
 
   it('favor decays without temples and rises with them', () => {

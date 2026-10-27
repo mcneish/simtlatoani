@@ -69,6 +69,7 @@ async function playUntil(predicate, maxSteps, shotEvery, prefix) {
       await page.waitForTimeout(150);
     }
     if (i % shotEvery === 0) await shot(`${prefix}-${String(shots++).padStart(2, '0')}`);
+    if (process.env.DEBUG && i % 100 === 0) console.log(i, JSON.stringify(await page.evaluate(() => ({ day: window.game.state.day, speed: window.game.speed, modal: window.game.ui.modalKind, tool: window.game.tool, cam: window.game.camera }))), JSON.stringify(a));
   }
   return state();
 }

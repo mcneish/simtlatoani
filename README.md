@@ -8,6 +8,8 @@ Un juego de construcción de ciudades en el navegador. Como tlatoani, haz crecer
 
 *A browser city builder about growing Tenochtitlan. The game is in Mexican Spanish.*
 
+Hecho para el evento **Claude for Games** de **Mexico Tech Week 2026**. *Made for the "Claude for Games" event at Mexico Tech Week 2026.*
+
 ## Controles
 
 - Clic para construir (arrastra para construir varios), clic derecho para demoler
